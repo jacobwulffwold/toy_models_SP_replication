@@ -272,11 +272,11 @@ class NeuronComputationModel(Model):
 
     def generate_batch(self, batch_size) -> Tensor:
 
-        present_features = t.rand((batch_size, self.cfg.n_instances, self.cfg.n_features), device=device) <= einops.repeat(self.feature_probability, "instances features -> batch instances features", batch=batch_size)
+        present_features = t.rand((batch_size, self.cfg.n_instances, self.cfg.n_features), device=self.device) <= einops.repeat(self.feature_probability, "instances features -> batch instances features", batch=batch_size)
 
-        batch = t.zeros((batch_size, self.cfg.n_instances, self.cfg.n_features), device=device)
+        batch = t.zeros((batch_size, self.cfg.n_instances, self.cfg.n_features), device=self.device)
 
-        batch[present_features] = 2 * t.rand((batch_size, self.cfg.n_instances, self.cfg.n_features), device=device)[present_features] - 1
+        batch[present_features] = 2 * t.rand((batch_size, self.cfg.n_instances, self.cfg.n_features), device=self.device)[present_features] - 1
 
         return batch
 
